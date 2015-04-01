@@ -10,7 +10,7 @@ process.title = 'chess-game';
 var webSocketsServerPort = 1337;
 
 // websocket and http servers
-var webSocketServer = require('ws').server;
+var webSocketServer = require('websocket').server;
 var http = require('http');
 
 /**

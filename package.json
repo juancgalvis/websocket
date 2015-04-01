@@ -1,8 +1,8 @@
 {
   "name": "node-ws-test",
-  "version": "0.0.1",
+  "version": "1.0",
   "dependencies": {
-    "ws": "0.4.x"
+    "websocket": "1.0.18"
   },
   "engines": {
     "node": "0.10.x"
