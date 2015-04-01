@@ -10,7 +10,7 @@ process.title = 'chess-game';
 var webSocketsServerPort = 1337;
 
 // websocket and http servers
-var webSocketServer = require('websocket').server;
+var webSocketServer = require('ws').server;
 var http = require('http');
 
 /**
@@ -75,8 +75,7 @@ wsServer.on('request', function(request) {
         if (message.type === 'utf8') { // accept only text
             // log and broadcast the message
                 
-                if(message.utf8Data == 'reset'){
-                    clients = new Array();
+                if(message.utf8Data === 'disconnected' && connection === waiting){
                     waiting = false;
                 }
                 // broadcast message to all connected clients
@@ -101,6 +100,19 @@ wsServer.on('request', function(request) {
     });
     // user disconnected
     connection.on('close', function(connection) {
+        if(connection === waiting){
+            waiting = false;
+        }else{
+            for (var i=0; i < clients.length; i++) {
+                if(clients[i].gamera === connection){
+                    clients[i].gamerb.sendUTF('disconnected');
+                    clients.splice(i, 1);
+                } else if(clients[i].gamerb === connection){
+                    clients[i].gamera.sendUTF('disconnected');
+                    clients.splice(i, 1);
+                }
+            }
+        }
     });
 
 });         
